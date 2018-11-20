@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<link rel="stylesheet" href="js/bootstrap/css/bootstrap.css" />
+		<style>
+			#realtime p {
+				display: block;
+				position: absolute;
+				margin: 40px;
+			}
+		
+		</style>
+	</head>
+
+	<body>
+		<div id="container">
+			<input type="text" id="cityName" placeholder="请输入城市名称" />
+			<input type="button" value="查询天气" id="searchBtn" @click="query();" />
+			<div id="result" >
+				<div id="realtime" v-for="(item,index) in realtime">
+				<!--	<span>{{item.windspeed}}</span>
+					<span>{{item.direct}}</span>-->
+					<p class="row">
+						请按F12打开控制台查看天气！JSON太多不想写了
+					</p>
+				</div>
+				<div id="life">
+					
+				</div>
+				<div id="weather">
+					
+				</div>
+				<div id="pm25">
+					
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/global.js"></script>
+		<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>
+		<script type="text/javascript" src="js/layer/layer.js"></script>
+		<script type="text/javascript" src="js/vue/vue2.5.js"></script>
+		<script type="text/javascript" src="js/vue/vue-resource.js"></script>
+		<script type="text/javascript" src="js/param.js"></script>
+		<script>
+			//单击事件
+			var vue = new Vue({
+				el: '#container',
+				data: {
+
+					weather: [],
+					
+				},
+				methods: {
+					query: function() {
+						//获得城市名称
+						var cityName = $('#cityName').val();
+						//cityName = encodeURIComponent(cityName);
+
+						//发出ajax请求
+						$.getJSON(baseUrl + '/WeatherServlet', {
+								cityName: cityName
+							}, function(data) {
+
+								$.each(data, function(index,item) {
+									
+									vue.weather.push(item.weather);
+									console.log(item.weather);
+								});
+								
+							})
+							.error(function() {
+
+							});
+
+					}
+
+				}
+
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,41 @@
+package com.icss.test;
+
+import java.util.List;
+
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.icss.hr.job.pojo.Job;
+import com.icss.hr.job.service.JobService;
+
+/**
+ * 
+ * 职务service测试
+ * @author Administrator
+ *
+ */
+public class TestJobService {
+	private ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+	
+	private JobService service = context.getBean(JobService.class);
+	@Test
+	public void testInsert(){
+		
+		Job job = new Job("保安啊啊啊", 6000, 10200);
+	
+		service.addJob(job);
+		
+		
+	}
+	@Test
+	public void testQuery(){
+	
+		List<Job> list = service.queryJob();
+		
+		for(Job job : list){
+			
+			System.out.println(job);
+		}
+	}
+}
